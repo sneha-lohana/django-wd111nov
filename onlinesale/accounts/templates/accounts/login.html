@@ -1,0 +1,15 @@
+{% extends 'layout/layout.html' %}
+{% block mainblock %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="col-6">
+            {{signinform}}
+            <input type="submit" value="Submit" class="btn btn-primary"/>
+            {% if errMsg %}
+                <div class="alert alert-danger" role="alert">
+                {{errMsg}}
+                </div>
+            {% endif %}
+        </div>
+    </form>
+{% endblock %}

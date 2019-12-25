@@ -1,0 +1,12 @@
+{% extends 'layout/layout.html' %}
+{% block mainblock %}
+    <h5 class="card-title">{{object.title}}</h5>
+    <h6 class="card-text">{{object.price}}</h6>
+    <p class="card-text">{{object.createdDate|timesince}} ago</p> 
+    {% if object.image %}
+    <img src="{{object.image.url}}" class="card-img-top" alt="{{object.title}}">
+    {% endif %}
+    <div class="card-body">
+    <p class="card-text">{{object.description|linebreaks}}</p>
+    </div>
+{% endblock %}
