@@ -30,6 +30,7 @@ urlpatterns = [
     path("register/", register_page, name="register"),
     path("signin/", signin_page, name="signin"),
     path("signout/", signout_page, name="signout"),
+    path("cart/", include(('carts.urls', 'carts'), namespace="cart"))
     
 ]
 
