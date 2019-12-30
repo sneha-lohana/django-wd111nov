@@ -1,0 +1,38 @@
+{% extends 'layout/layout.html' %}
+{% block mainblock %}
+    <!-- <div class="table">
+        <div class="row">
+            <div class="col">#</div>
+            <div class="col">Name</div>
+            <div class="col">Price</div>
+        </div>
+    </div> -->
+    {% if cart_obj.products.all %}
+    <table class="table">
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
+        {% for prod in cart_obj.products.all %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{prod.title}}
+                {% include 'products/snippets/addtocart.html' with pid=prod.id in_cart=True %}
+            </td>
+            <td>{{prod.price}}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="2"><b>Subtotal</b></td>
+            <td>{{cart_obj.subtotal}}</td>
+        </tr>
+        <tr>
+            <td colspan="2"><b>Total</b></td>
+            <td>{{cart_obj.total}}</td>
+        </tr>
+    </table>
+    {% else %}
+        <h1>Cart is empty</h1>
+    {% endif %}
+{% endblock %}

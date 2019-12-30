@@ -2,6 +2,11 @@ from django.shortcuts import render, redirect
 from products.models import Product
 from .models import Cart
 
+def cart_home(request):
+    cart_obj = Cart.objects.new_or_get(request)
+    context = {'cart_obj':cart_obj}
+    return render(request, 'carts/list.html', context)
+
 def update_cart(request):
     cart_obj = Cart.objects.new_or_get(request)
     if request.method == 'POST':
@@ -15,4 +20,4 @@ def update_cart(request):
             else:
                 #add
                 cart_obj.products.add(prod_obj)
-    return redirect(prod_obj.get_abs_url())
+    return redirect('cart:list')

@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from products.models import Product
+from decimal import Decimal
+from django.db.models.signals import m2m_changed
 
 class CartManager(models.Manager):
     def new_or_get(self, request):
@@ -27,3 +29,15 @@ class Cart(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+def products_m2m_changed_receiver(sender, instance, *args, **kwargs):
+    instance.subtotal = Decimal(0)
+    for prod in instance.products.all():
+        instance.subtotal += prod.price
+    if instance.subtotal < Decimal(500):
+        instance.total = instance.subtotal + Decimal(80)
+    else:
+        instance.total = instance.subtotal
+    instance.save()
+
+m2m_changed.connect(products_m2m_changed_receiver, sender=Cart.products.through)
