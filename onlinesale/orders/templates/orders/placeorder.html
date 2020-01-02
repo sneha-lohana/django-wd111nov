@@ -1,0 +1,17 @@
+{% extends 'layout/layout.html' %}
+{% block mainblock %}
+{% if request.user.is_authenticated %}
+    <h3>{{order_obj.order_id}}</h3>
+    <h3>{{order_obj.order_total}}</h3>
+    <h3>{{order_obj.total}}</h3>
+{% else %}
+<div class="col-6">
+    <form method="POST" action="{% url 'signin' %}">
+        {% csrf_token %}
+        {{loginform}}
+        <input type="submit" value="Login" class="btn btn-primary"/>
+        <input type="hidden" name="next_url" value="{{request.build_absolute_uri}}"/>
+    </form>
+</div>
+{% endif %}
+{% endblock %}
