@@ -20,6 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from accounts.views import register_page, signin_page, signout_page
 from django.conf.urls import include
+from search.views import SearchProductListView
 
 urlpatterns = [
     path("product/", include(('products.urls', 'products'),namespace="product")),
@@ -30,8 +31,9 @@ urlpatterns = [
     path("register/", register_page, name="register"),
     path("signin/", signin_page, name="signin"),
     path("signout/", signout_page, name="signout"),
-    path("cart/", include(('carts.urls', 'carts'), namespace="cart"))
-    
+    path("cart/", include(('carts.urls', 'carts'), namespace="cart")),
+    path("search/", SearchProductListView.as_view(), name="search"),
+    path("order/", include(('orders.urls', 'orders'), namespace="order"))
 ]
 
 if settings.DEBUG:

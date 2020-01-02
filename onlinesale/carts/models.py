@@ -10,7 +10,9 @@ class CartManager(models.Manager):
         if cartid is not None:
             cart_obj = Cart.objects.filter(id=cartid).first()
         elif request.user.is_authenticated:
-            cart_obj = Cart.objects.create(user=request.user)
+            cart_obj = Cart.objects.filter(user=request.user).first()
+            if cart_obj is None:
+                cart_obj = Cart.objects.create(user=request.user)
             request.session['cart_id'] = cart_obj.id
         else:
             cart_obj = Cart.objects.create()
