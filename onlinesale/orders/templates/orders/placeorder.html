@@ -12,9 +12,12 @@
                 <h5>Add New Address</h5>
                 {% include 'addresses/addAddress.html' with form=addressForm next_url=request.build_absolute_uri %}
             </div>
+            {% if addList %}
             <div class="col">
                 <h5>Select Address</h5>
+                {% include 'addresses/selectAddress.html' with addList=addList next_url=request.build_absolute_uri %}
             </div>
+            {% endif %}
         </div>
     {% endif %}
 {% else %}

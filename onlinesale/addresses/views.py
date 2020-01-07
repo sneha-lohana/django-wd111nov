@@ -4,6 +4,7 @@ from billing.models import BillingProfile
 from orders.models import Order
 from carts.models import Cart
 from django.utils.http import is_safe_url
+from .models import Address
 
 # Create your views here.
 def add_address(request):
@@ -18,6 +19,16 @@ def add_address(request):
         if redirect_path:
             if is_safe_url(redirect_path, request.get_host()):
                 return redirect(redirect_path)
+    return redirect("home")
+
+def attach_address(request):
+    redirect_path = request.POST.get('next_url') or None
+    addid = request.POST.get('address')
+    add_obj = Address.objects.filter(id=addid).first()
+    add_address_to_order(request, add_obj)
+    if redirect_path:
+        if is_safe_url(redirect_path, request.get_host()):
+            return redirect(redirect_path)
     return redirect("home")
 
 def add_address_to_order(request, add_obj):

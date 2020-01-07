@@ -5,8 +5,8 @@ from billing.models import BillingProfile
 from .models import Order
 from accounts.forms import SignInForm
 from addresses.forms import AddressForm
+from addresses.models import Address
 
-# Create your views here.
 def create_order(request):
     loginform = SignInForm()
     addressForm = AddressForm()
@@ -16,4 +16,6 @@ def create_order(request):
     if cart_obj and bill_obj:
         order_obj = Order.objects.get_or_new(cart_obj, bill_obj)
         context['order_obj'] = order_obj
+        add_list = Address.objects.filter(billing_profile=bill_obj)
+        context['addList'] = add_list
     return render(request, "orders/placeorder.html", context)
