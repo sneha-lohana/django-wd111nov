@@ -2,7 +2,7 @@
 {% block mainblock %}
   {% if user.is_authenticated %}
   <div class="alert alert-success" role="alert">
-    Welcome {{user}}!
+    Welcome {{user.get_full_name}}!
   </div>
   {% endif %}
   <h1>{{head}}</h1>

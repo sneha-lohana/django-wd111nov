@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from .forms import RegisterForm, SignInForm
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.utils.http import is_safe_url
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 def signout_page(request):
     logout(request)
     return redirect("/")
@@ -16,7 +18,7 @@ def signin_page(request):
         'signinform':signinform,
     }
     if signinform.is_valid():
-        user = authenticate(username=signinform.data.get('username'), password=signinform.data.get('pwd'))
+        user = authenticate(username=signinform.data.get('email'), password=signinform.data.get('pwd'))
         if user:
             login(request, user)
             if redirect_path is not None:
@@ -36,12 +38,11 @@ def register_page(request):
     #form = RegisterForm(request.POST or None)
     context = {'form':form}
     if form.is_valid():
-        un=form.cleaned_data.get('username')
-        fn=form.cleaned_data.get('firstname')
-        ln=form.cleaned_data.get('lastname')
-        email=form.cleaned_data.get('email')
-        pwd=form.cleaned_data.get('pwd')
-        user = User.objects.create_user(username=un,password=pwd,email=email,first_name=fn,last_name=ln)
+        email=form.data.get('email')
+        fn=form.data.get('fullname')
+        mobile=form.data.get('mobile')
+        pwd=form.data.get('pwd')
+        user = User.objects.create_user(email=email,password=pwd,full_name=fn,mobile=mobile)
         if user:
             context['msg'] = "User Has been created successfully."
             context['form'] = RegisterForm()
