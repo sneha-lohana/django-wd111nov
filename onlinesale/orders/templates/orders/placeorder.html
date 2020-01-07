@@ -4,6 +4,19 @@
     <h3>{{order_obj.order_id}}</h3>
     <h3>{{order_obj.order_total}}</h3>
     <h3>{{order_obj.total}}</h3>
+    {% if order_obj.address %}
+        {{order_obj.address.get_address|linebreaks}}
+    {% else %}
+        <div class="row">
+            <div class="col">
+                <h5>Add New Address</h5>
+                {% include 'addresses/addAddress.html' with form=addressForm next_url=request.build_absolute_uri %}
+            </div>
+            <div class="col">
+                <h5>Select Address</h5>
+            </div>
+        </div>
+    {% endif %}
 {% else %}
 <div class="col-6">
     <form method="POST" action="{% url 'signin' %}">

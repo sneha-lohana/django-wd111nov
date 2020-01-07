@@ -1,0 +1,8 @@
+<div class="container">
+    <form method="POST" action="{% url 'address:add' %}">
+        {% csrf_token %}
+        {{form}}
+        <input type="hidden" name="next_url" value="{{next_url}}"/>
+        <input type="submit" value="Add Address" class="btn btn-primary"/>
+    </form>
+</div>
