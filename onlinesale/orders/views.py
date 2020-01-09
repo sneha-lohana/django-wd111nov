@@ -19,3 +19,16 @@ def create_order(request):
         add_list = Address.objects.filter(billing_profile=bill_obj)
         context['addList'] = add_list
     return render(request, "orders/placeorder.html", context)
+
+def received_payment(request):
+    print(request.POST)
+    orderid = request.POST.get("shopping_order_id")
+    payid = request.POST.get("razorpay_payment_id")
+    order_obj = Order.objects.filter(order_id=orderid).first()
+    if order_obj:
+        order_obj.razor_pay_id = payid
+        order_obj.status = "paid"
+        order_obj.save()
+        del request.session['cart_id']
+        context = {'orderid':orderid, 'payid':payid}
+    return render(request, "orders/success.html", context)
